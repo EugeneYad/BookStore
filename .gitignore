@@ -6,8 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-APP_DATA/SoccerInfo.sdf
-*SoccerInfo.sdf
+
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)
