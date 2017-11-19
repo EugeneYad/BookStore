@@ -5,16 +5,35 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BookStore.Models;
+using log4net;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace BookStore.Controllers
 {
     public class HomeController : Controller
     {
+        private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(HomeController));
+
         BookContext db = new BookContext();
 
 	    public ActionResult Index()
         {
+            //log4net.Config.XmlConfigurator.Configure();
+            //logger.Error("Test msg");
             // получаем из бд все объекты Book
+
+            //var storageACcc =
+            //    CloudStorageAccount.Parse(
+            //        "DefaultEndpointsProtocol=https;AccountName=storage0acc;AccountKey=B5PhADN8FLKMLhm2IicTqI/JoAaR3s3ayqOG+okceAV9Lkm02LHxsoOWF7RNf/bY9dMI1Q9g+yuA0Ls6wIj7Rg==;EndpointSuffix=core.windows.net");
+
+            //var blobClient = new CloudBlobClient(new Uri(@"https://storage0acc.blob.core.windows.net"),
+            //    storageACcc.Credentials);
+            //CloudBlobContainer container = blobClient.GetContainerReference("testblob");
+            //container.CreateIfNotExists();
+            //CloudBlockBlob blob = container.GetBlockBlobReference("newTextfile.txt");
+            //blob.UploadText("any_content_you_want");
             IEnumerable<Book> books = db.Books;
             return View(books);
         }
