@@ -18,22 +18,9 @@ namespace BookStore.Controllers
 
         BookContext db = new BookContext();
 
-	    public ActionResult Index()
+        public ActionResult Index()
         {
-            //log4net.Config.XmlConfigurator.Configure();
-            //logger.Error("Test msg");
             // получаем из бд все объекты Book
-
-            //var storageACcc =
-            //    CloudStorageAccount.Parse(
-            //        "DefaultEndpointsProtocol=https;AccountName=storage0acc;AccountKey=B5PhADN8FLKMLhm2IicTqI/JoAaR3s3ayqOG+okceAV9Lkm02LHxsoOWF7RNf/bY9dMI1Q9g+yuA0Ls6wIj7Rg==;EndpointSuffix=core.windows.net");
-
-            //var blobClient = new CloudBlobClient(new Uri(@"https://storage0acc.blob.core.windows.net"),
-            //    storageACcc.Credentials);
-            //CloudBlobContainer container = blobClient.GetContainerReference("testblob");
-            //container.CreateIfNotExists();
-            //CloudBlockBlob blob = container.GetBlockBlobReference("newTextfile.txt");
-            //blob.UploadText("any_content_you_want");
             IEnumerable<Book> books = db.Books;
             return View(books);
         }
@@ -45,6 +32,12 @@ namespace BookStore.Controllers
             ViewBag.Message = "Это вызов частичного представления из обычного";
             SelectList books = new SelectList(db.Books, "Author", "Name");
             return View(books);
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            Exception exception = filterContext.Exception;
+            logger.Error($"Error occured: {exception}");
         }
 
         [HttpGet]
@@ -141,14 +134,14 @@ namespace BookStore.Controllers
             return RedirectToAction("Index");
         }
 
-		protected override void Dispose(bool disposing)
-		{
-			if (db != null)
-			{
-				db.Dispose();
-				db = null;
-			}
-			base.Dispose(disposing);
-		}
-	}
+        protected override void Dispose(bool disposing)
+        {
+            if (db != null)
+            {
+                db.Dispose();
+                db = null;
+            }
+            base.Dispose(disposing);
+        }
+    }
 }
