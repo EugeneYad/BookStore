@@ -17,7 +17,7 @@ namespace BookStore
                 .EnableSwagger(c =>
                     {
                         c.SingleApiVersion("v1", "BookStore");
-                       // c.IncludeXmlComments(string.Format(@"{0}\bin\BookStore.xml", System.AppDomain.CurrentDomain.BaseDirectory));
+                        c.IncludeXmlComments(string.Format(@"{0}\bin\BookStore.xml", System.AppDomain.CurrentDomain.BaseDirectory));
                     })
                 .EnableSwaggerUi(c =>
                     {
