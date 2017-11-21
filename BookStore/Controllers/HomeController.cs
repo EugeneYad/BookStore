@@ -20,6 +20,9 @@ namespace BookStore.Controllers
 
         public ActionResult Index()
         {
+            //log4net.Config.XmlConfigurator.Configure();
+            //logger.Error("test3");
+            //logger.Error("test4");
             // получаем из бд все объекты Book
             IEnumerable<Book> books = db.Books;
             return View(books);
@@ -37,6 +40,8 @@ namespace BookStore.Controllers
         protected override void OnException(ExceptionContext filterContext)
         {
             Exception exception = filterContext.Exception;
+            log4net.Config.XmlConfigurator.Configure();
+            logger.Error("test5");
             logger.Error($"Error occured: {exception}");
         }
 
