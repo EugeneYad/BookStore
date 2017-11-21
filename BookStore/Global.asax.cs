@@ -5,26 +5,33 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using BookStore.App_Start;
 using BookStore.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Swashbuckle.Application;
 
 namespace BookStore
 {
-	public class MvcApplication : System.Web.HttpApplication
-	{
-		protected void Application_Start()
-		{
-			Database.SetInitializer(new BookDbInitializer());
-			Database.SetInitializer(new CourseDbInitializer());
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            Database.SetInitializer(new BookDbInitializer());
+            Database.SetInitializer(new CourseDbInitializer());
 
-			AreaRegistration.RegisterAllAreas();
-			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-			RouteConfig.RegisterRoutes(RouteTable.Routes);
-			BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AreaRegistration.RegisterAllAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //GlobalConfiguration.Configuration
+            //  .EnableSwagger(c => c.SingleApiVersion("v1", "A title for your API"))
+            //  .EnableSwaggerUi();
 
             log4net.Config.XmlConfigurator.Configure();
 
