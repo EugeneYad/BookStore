@@ -115,7 +115,7 @@ namespace BookStore.Helpers
         private static void Upload<T>(ISearchIndexClient indexClient, IEnumerable<T> docs)
             where T : class
         {
-            var batch = IndexBatch.Delete(docs);
+            var batch = IndexBatch.MergeOrUpload(docs);
 
             try
             {
