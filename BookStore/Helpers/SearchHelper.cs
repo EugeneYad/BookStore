@@ -76,9 +76,12 @@ namespace BookStore.Helpers
                 _playersIdxClient = serviceClient.Indexes.GetClient("playersidx");
 
                 var db = new SoccerContex();
-                var players = db.Players.ToList().Select(el => new PlayerEx(el));
+                if (db.Players.Any())
+                {
+                    var players = db.Players.ToList().Select(el => new PlayerEx(el));
 
-                Upload(_playersIdxClient, players);
+                    Upload(_playersIdxClient, players);
+                }
             }
         }
 
@@ -112,7 +115,7 @@ namespace BookStore.Helpers
         private static void Upload<T>(ISearchIndexClient indexClient, IEnumerable<T> docs)
             where T : class
         {
-            var batch = IndexBatch.MergeOrUpload(docs);
+            var batch = IndexBatch.Delete(docs);
 
             try
             {
