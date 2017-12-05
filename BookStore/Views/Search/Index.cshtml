@@ -1,0 +1,63 @@
+﻿@model BookStore.Models.SearchResult
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Search Result</h2>
+
+<h3>Books:</h3>
+<table class="table">
+    
+    @foreach (var item in Model.Books)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<h3>Players:</h3>
+<table class="table">
+    
+    @foreach (var item in Model.Players)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+        </tr>
+    }
+</table>
+    
+<h3>Students:</h3>
+<table class="table">
+
+@foreach (var item in Model.Students)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+        </tr>
+    }
+
+</table>

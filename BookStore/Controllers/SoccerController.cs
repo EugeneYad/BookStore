@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using  BookStore.Models;
 using System.Data.Entity;
+using BookStore.Helpers;
 
 namespace BookStore.Controllers
 {
@@ -94,6 +95,9 @@ namespace BookStore.Controllers
             //Добавляем игрока в таблицу
             db.Players.Add(player);
             db.SaveChanges();
+
+            SearchHelper.AddToIndex(new List<Player>(){player});
+
             // перенаправляем на главную страницу
             return RedirectToAction("Index");
         }
@@ -114,6 +118,7 @@ namespace BookStore.Controllers
                 ViewBag.Teams = teams;
                 return View(player);
             }
+
             return RedirectToAction("Index");
         }
 
@@ -122,6 +127,7 @@ namespace BookStore.Controllers
         {
             db.Entry(player).State = EntityState.Modified;
             db.SaveChanges();
+            SearchHelper.AddToIndex(new List<Player>() { player });
             return RedirectToAction("Index");
         }
     }

@@ -16,4 +16,31 @@ namespace BookStore.Models
         // цена
         public int Price { get; set; }
     }
+
+    public class BookEx
+    {
+        public BookEx()
+        {
+
+        }
+
+        public BookEx(Book book)
+        {
+            Id = book.Id;
+            Name = book.Name;
+            Author = book.Author;
+            Price = book.Price;
+            Key = book.Id.ToString();
+        }
+
+        public string Key { get; set; }
+
+        public int Price { get; set; }
+
+        public string Author { get; set; }
+
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+    }
 }

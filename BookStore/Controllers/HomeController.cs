@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BookStore.Helpers;
 using BookStore.Models;
 using log4net;
 using Microsoft.WindowsAzure.Storage;
@@ -108,6 +109,8 @@ namespace BookStore.Controllers
         {
             db.Entry(book).State = EntityState.Added;
             db.SaveChanges();
+
+            SearchHelper.AddToIndex(new List<Book>(){book});
 
             return RedirectToAction("Index");
         }

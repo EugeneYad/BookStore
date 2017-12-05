@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BookStore.Helpers;
 using BookStore.Models;
 
 namespace BookStore.Controllers
@@ -65,6 +66,7 @@ namespace BookStore.Controllers
 
             db.Entry(newStudent).State = EntityState.Modified;
             db.SaveChanges();
+            SearchHelper.AddToIndex(new List<Student>(){student});
             return RedirectToAction("Index");
         }
     }
