@@ -122,6 +122,14 @@ namespace BookStore.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            db.Players.Remove(db.Players.First(el => el.Id == id));
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public ActionResult Edit(Player player)
         {
