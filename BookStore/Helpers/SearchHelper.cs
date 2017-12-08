@@ -5,6 +5,7 @@ using System.Web;
 using BookStore.Models;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
+using Newtonsoft.Json;
 using IndexBatch = Microsoft.Azure.Search.Models.IndexBatch;
 
 namespace BookStore.Helpers
@@ -25,6 +26,12 @@ namespace BookStore.Helpers
 
         public static Models.SearchResult Search(string text)
         {
+            if (RedisHelper.HasKey(text))
+            {
+                var result = RedisHelper.GetFromCache(text);
+                return JsonConvert.DeserializeObject<Models.SearchResult>(result);
+            }
+
             var books = _bookIdxClient.Documents.Search<BookEx>(text).Results.Select(el => el.Document);
             var players = _playersIdxClient.Documents.Search<PlayerEx>(text).Results.Select(el => el.Document);
             var students = _studentsIdxClient.Documents.Search<StudentEx>(text).Results.Select(el => el.Document);
@@ -36,6 +43,8 @@ namespace BookStore.Helpers
                 Students = students.ToList()
             };
 
+            RedisHelper.Set(text, JsonConvert.SerializeObject(searchResult));
+
             return searchResult;
         }
 
@@ -43,7 +52,9 @@ namespace BookStore.Helpers
             where T : class 
         {
             if (items.Count == 0) return;
-            
+
+            RedisHelper.Invalidate();
+
             if (typeof(T) == typeof(Book))
             {
                 var books = items.Select(el => new BookEx(el as Book));
